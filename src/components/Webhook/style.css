@@ -1,0 +1,22 @@
+.webhook {
+  display: inline;
+}
+
+.input-group{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.customize-header-group{
+    div {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        padding-top: .5rem;
+
+        input {
+            width: 100%;
+        }
+    }
+}

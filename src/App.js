@@ -1,101 +1,3 @@
-// import { useState, useCallback } from "react"
-// import {
-//   ReactFlow,
-//   Background,
-//   Controls,
-//   applyNodeChanges,
-//   applyEdgeChanges,
-//   addEdge
-// } from "@xyflow/react"
-// import "@xyflow/react/dist/style.css"
-// import "./App.css"
-// import CustomNode from "./CustomNode";
-// import nodeTypes from "./nodeTypes";
-
-// function App() {
-//   // const initialNodes = [
-//   //   {
-//   //     id: "1",
-//   //     data: { label: "Hello" },
-//   //     position: { x: 0, y: 0 },
-//   //     type: "input",
-//   //   },
-//   //   {
-//   //     id: "2",
-//   //     data: { label: "World" },
-//   //     position: { x: 100, y: 100 },
-//   //   },
-//   // ]
-
-//   // const initialNodes = [
-//   //   { id: "1", type: "input", data: { label: "Input Node" }, position: { x: 100, y: 100 } },
-//   //   { id: "2", type: "default", data: { label: "Default Node" }, position: { x: 200, y: 200 } },
-//   //   { id: "3", type: "output", data: { label: "Output Node" }, position: { x: 300, y: 300 } },
-//   //   { id: "4", type: "custom", data: { label: "Custom Node" }, position: { x: 400, y: 400 } }
-//   // ];
-
-//   const initialNodes = [
-//     { id: "1", type: "input", data: { label: "Input Node" }, position: { x: 100, y: 100 } },
-//     { id: "2", type: "group", data: { label: "Group Node", description: "This is a group" }, position: { x: 200, y: 200 } },
-//     { id: "3", type: "resizable", data: { label: "Resizable Node", width: 150, height: 80 }, position: { x: 300, y: 300 } },
-//     { id: "4", type: "image", data: { src: "https://picsum.photos/536/354" }, position: { x: 400, y: 400 } },
-//     { id: "5", type: "custom", data: { label: "Custom Node" }, position: { x: 500, y: 500 } }
-//   ];
-
-//   const initialEdges = [
-//     // { id: "1-2", source: "1", target: "2", label: "to the", type: "step" },
-//   ]
-
-//   const [nodes, setNodes] = useState(initialNodes)
-//   const [edges, setEdges] = useState(initialEdges)
-//   console.log(edges, 'edges----');
-
-//   const onNodesChange = useCallback(
-//     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-//     []
-//   )
-//   const onEdgesChange = useCallback(
-//     (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-//     []
-//   )
-
-//   const onConnect = useCallback(
-//     (params) => setEdges((eds) => addEdge(params, eds)),
-//     [],
-//   );
-
-//   const addNewNode = () => {
-//     const newNode = {
-//       id: (nodes.length + 1).toString(),
-//       data: { label: `Hello ${Math.random()}` },
-//       position: { x: Math.random() * 400, y: Math.random() * 400 },
-//       type: "output",
-//     }
-//     setNodes((nds) => [...nds, newNode])
-//   }
-
-//   return (
-//     <div className='App'>
-//     <button onClick={addNewNode}>Push new node</button>
-//       <ReactFlow
-//         nodes={nodes}
-//         onNodesChange={onNodesChange}
-//         edges={edges}
-//         onEdgesChange={onEdgesChange}
-//         onConnect={onConnect}
-//         fitView
-//         // nodeTypes={{ custom: CustomNode }}
-//         nodeTypes={nodeTypes}
-//       >
-//         <Background />
-//         <Controls />
-//       </ReactFlow>
-//     </div>
-//   )
-// }
-
-// export default App
-
 import React, { useState, useCallback } from "react"
 import {
   ReactFlow,
@@ -111,6 +13,10 @@ import {
 import nodeTypes from "./nodeTypes" // Import custom node types
 import "@xyflow/react/dist/style.css"
 import "./App.css"
+
+import { SendMessage } from "./components/SendMessageAction/SendMessage"
+import CustomNode from "./CustomNode" // Import CustomNode component
+import { Webhook } from "./components/Webhook/Webhook"
 
 function App() {
   const initialNodes = [
@@ -133,6 +39,8 @@ function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
   const [selectedNodeId, setSelectedNodeId] = useState(null)
+  const [nodeToEdit, setNodeToEdit] = useState(null)
+  const [editNodeType, setEditNodeType] = useState(null)
   console.log(edges)
   console.log(nodes)
 
@@ -197,16 +105,21 @@ function App() {
     setNodes((nds) => [...nds, newNode])
   }
 
-  const addNewNode = () => {
+  const addNewNode = (text, image, url, method) => {
+    console.log("setting node to edit----")
+
     const randomBgColor = `hsl(${Math.random() * 360}, 70%, 80%)` // Random pastel color
     const randomBorderColor = `hsl(${Math.random() * 360}, 80%, 50%)` // Vibrant border
 
     const newNode = {
       id: (nodes.length + 1).toString(),
       data: {
-        label: `Hello ${Math.random()}`,
+        label: text || `Hello ${Math.random()}`,
         bgColor: randomBgColor,
         borderColor: randomBorderColor,
+        image: image ? URL.createObjectURL(image) : null,
+        url: url || null,
+        method: method || null,
       },
       position: { x: Math.random() * 400, y: Math.random() * 400 },
       type: "custom", // Use a custom node
@@ -215,24 +128,37 @@ function App() {
     setNodes((nds) => [...nds, newNode])
   }
 
-  // const addNewNode = () => {
-  //   const newNode = {
-  //     id: (nodes.length + 1).toString(),
-  //     data: {
-  //       label: `Hello ${Math.random()}`,
-  //       bgColor: "yellow",
-  //       borderColor: "green",
-  //     },
-  //     position: { x: Math.random() * 400, y: Math.random() * 400 },
-  //     type: "output",
-  //   }
-  //   setNodes((nds) => [...nds, newNode])
-  // }
+  const onEditNode = (nodeData, type) => {
+    setNodeToEdit(nodeData)
+    setEditNodeType(type)
+  }
+
+  const editNode = (id, text, image, url, method) => {
+    setNodes((nds) =>
+      nds.map((node) =>
+        node.id === id
+          ? {
+              ...node,
+              data: {
+                ...node.data,
+                label: text,
+                image: image ? URL.createObjectURL(image) : node.data.image,
+                url: url || node.data.url,
+                method: method || node.data.method,
+              },
+            }
+          : node
+      )
+    )
+    setNodeToEdit(null)
+  }
 
   return (
     <div className='App'>
       <div className='controls'>
-        <button onClick={addNewNode}>Push new node</button>
+        <Webhook addNewNode={addNewNode} nodeToEdit={editNodeType === 'webhook' ? nodeToEdit : null} editNode={editNode} />
+        <SendMessage addNewNode={addNewNode} editNode={editNode} nodeToEdit={editNodeType === 'sendMessage' ? nodeToEdit : null} />
+        <button onClick={() => addNewNode()}>Push new node</button>
         <button onClick={deleteNode} disabled={!selectedNodeId}>
           🗑️ Delete Node
         </button>
@@ -240,7 +166,6 @@ function App() {
           📄 Clone Node
         </button>
       </div>
-
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -250,7 +175,15 @@ function App() {
         onConnect={onConnect}
         onNodeClick={onNodeClick} // Capture selected node
         fitView
-        nodeTypes={nodeTypes}
+        nodeTypes={{
+          ...nodeTypes,
+          custom: (props) => (
+            <CustomNode
+              {...props}
+              onEdit={(data) => onEditNode({ ...data, id: props.id }, props.data.label === 'Webhook' ? 'webhook' : 'sendMessage')}
+            />
+          ),
+        }}
       >
         <Background />
         <Controls />

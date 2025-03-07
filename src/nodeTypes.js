@@ -3,7 +3,10 @@ import GroupNode from "./GroupNode"; // Import group node component
 import ResizableNode from "./ResizableNode"; // Import resizable node component
 import ImageNode from "./ImageNode"; // Import image node component
 
+import CustomActionNode from "./CustomActionNode";
+
 const nodeTypes = {
+  customAction: CustomActionNode,
   custom: CustomNode,    // Custom node with styling and logic
   group: GroupNode,      // Group node for grouping multiple nodes
   resizable: ResizableNode, // Resizable node with dynamic resizing
