@@ -1,5 +1,6 @@
 
 .node {
+    cursor: context-menu;
     border: 2px solid #8080ff;
     border-radius: 15px;
     padding: 5% 20px;
@@ -20,6 +21,14 @@
     font-size: 18px;
     color: black;
     margin-bottom: 0%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    button {
+        padding: .3rem .5rem;	
+        cursor: pointer;
+    }
 }
 
 .node-field {

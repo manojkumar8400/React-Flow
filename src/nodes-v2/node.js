@@ -17,7 +17,7 @@ export const Node = ({ config }) => {
 
   return (
     <div
-      onDoubleClick={() => removeNode(id)}
+      // onDoubleClick={() =>{ removeNode(id); console.log('Node removed---')}}
       className='node'
       style={{ background: color }}
     >
@@ -38,6 +38,9 @@ export const Node = ({ config }) => {
         : ""}
       <div className='node-head'>
         <span>{name}</span>
+        {name !== "Enrollment Trigger" && (
+          <button onClick={() => removeNode(id)}>X</button>
+        )}
       </div>
       <div>
         {fields.map((field, index) => {

@@ -2,7 +2,7 @@
 // Displays the drag-and-drop UI
 // --------------------------------------------------
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import ReactFlow, { Controls, Background, MiniMap } from 'reactflow';
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
@@ -37,7 +37,7 @@ const nodeTypes = {
   file: FileNode,
   call: CallNode,
   note: NoteNode,
-};
+}
 
 const selector = (state) => ({
   nodes: state.nodes,
@@ -67,8 +67,17 @@ export const PipelineUI = () => {
       return nodeData;
     }
 
-    // console.log(nodes,'nodes', {edges});
-    
+  // Add default InputNode on page load
+  useEffect(() => {
+    const nodeID = getNodeID("customInput")
+    const defaultNode = {
+      id: nodeID,
+      type: "customInput",
+      position: { x: 600, y: 200 },
+      data: getInitNodeData(nodeID, "customInput"),
+    }
+    addNode(defaultNode)
+  }, [])
 
     const onDrop = useCallback(
       
@@ -116,6 +125,7 @@ export const PipelineUI = () => {
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
+                nodesDraggable={false}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}

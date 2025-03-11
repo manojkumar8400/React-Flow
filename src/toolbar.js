@@ -9,7 +9,7 @@ export const PipelineToolbar = () => {
         <div className='toolbar'>
             <div className='node-grabber-panel'>
                 <div className=''>
-                    <DraggableNode type='customInput' label='Input' />
+                    {/*<DraggableNode type='customInput' label='Input' />*/}
                     <DraggableNode type='customOutput' label='Output' />
                     <DraggableNode type='text' label='Text' />
                     <DraggableNode type='llm' label='LLM' />
