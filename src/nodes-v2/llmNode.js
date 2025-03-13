@@ -14,19 +14,19 @@ export const LLMNode = ({ id, data }) => {
         { 
           id: `${id}-system`, 
           type: 'target',  
-          position: 'Left',
-          style: {top: `${25}%`} 
+          position: 'Top',
+          style: {left: `${25}%`} 
         },
         { 
           id: `${id}-prompt`, 
           type: 'target',  
-          position: 'Left',
-          style: {top: `${75}%`} 
+          position: 'Top',
+          style: {left: `${75}%`} 
         },
         { 
           id: `${id}-value`, 
           type: 'source',  
-          position: 'Right' 
+          position: 'Bottom' 
         },
       ],
       fields: [

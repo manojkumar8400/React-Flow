@@ -11,13 +11,12 @@ const selector = (state) => ({
 })
 
 export const Node = ({ config }) => {
-  const { id, name, handles = [], fields = [], color = "white" } = config
+  const { id, name, handles = [], fields = [], color = "white", isRemoved = true } = config
 
   const { removeNode } = useStore(selector, shallow)
 
   return (
     <div
-      // onDoubleClick={() =>{ removeNode(id); console.log('Node removed---')}}
       className='node'
       style={{ background: color }}
     >
@@ -38,7 +37,7 @@ export const Node = ({ config }) => {
         : ""}
       <div className='node-head'>
         <span>{name}</span>
-        {name !== "Enrollment Trigger" && (
+        {isRemoved && (
           <button onClick={() => removeNode(id)}>X</button>
         )}
       </div>

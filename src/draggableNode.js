@@ -1,12 +1,19 @@
+import { useStore } from './store';
 // draggableNode.js
 
-export const DraggableNode = ({ type, label }) => {
+export const DraggableNode = ({ type, label, selectedNode }) => {
+
     const onDragStart = (event, nodeType) => {
       const appData = { nodeType }
       event.target.style.cursor = 'grabbing';
       event.dataTransfer.setData('application/reactflow', JSON.stringify(appData));
       event.dataTransfer.effectAllowed = 'move';
     };
+
+  const onSelectAction = () => {
+    // console.log('actions clicked');
+    selectedNode(type);
+  };
 
     const nodes_config = {
       customInput: {
@@ -43,11 +50,11 @@ export const DraggableNode = ({ type, label }) => {
         className={`${type} node-grabber`}
         onDragStart={(event) => onDragStart(event, type)}
         onDragEnd={(event) => (event.target.style.cursor = 'grab')}
-        draggable
+        // draggable
+        onClick={onSelectAction}
       >
         <span className='node-grabber-svg'>{nodes_config[type].svg}</span>
         <span className='node-grabber-label'>{label}</span>
       </div>
     );
   };
-  

@@ -2,7 +2,7 @@
 // Displays the drag-and-drop UI
 // --------------------------------------------------
 
-import { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import ReactFlow, { Controls, Background, MiniMap } from 'reactflow';
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
@@ -19,13 +19,15 @@ import { FileNode } from './nodes-v2/fileNode';
 import { CallNode } from './nodes-v2/callNode';
 import { NoteNode } from './nodes-v2/noteNode';
 
-// import './nodes-v2/styles.css';
 import 'reactflow/dist/style.css';
+import PlusButtonEdge from './edges/PlusButtonEdge';
+import { PipelineToolbar } from './toolbar';
 
 const gridSize = 10;
 const proOptions = { hideAttribution: true };
 const edgeTypes = {
-  buttonedge: ButtonEdge,
+  // PlusButtonEdge: ButtonEdge,
+  plusbuttonedge: PlusButtonEdge,
 };
 const nodeTypes = {
   customInput: InputNode,
@@ -47,19 +49,24 @@ const selector = (state) => ({
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
+  removeEdges: state.removeEdges,
 });
 
-export const PipelineUI = () => {
+const PipelineUI = () => {
     const reactFlowWrapper = useRef(null);
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
+    const [showDraggableNodes, setShowDraggableNodes] = useState(false);
+    const [selectedEdge, setSelectedEdge] = useState(null);
+    const [edgeInfo, setEdgeInfo] = useState(null);
     const {
       nodes,
       edges,
       getNodeID,
       addNode,
+      removeEdges,
       onNodesChange,
       onEdgesChange,
-      onConnect
+      onConnect,
     } = useStore(selector, shallow);
 
     const getInitNodeData = (nodeID, type) => {
@@ -67,22 +74,40 @@ export const PipelineUI = () => {
       return nodeData;
     }
 
-  // Add default InputNode on page load
+  // Add default InputNode and NoteNode on page load
   useEffect(() => {
-    const nodeID = getNodeID("customInput")
-    const defaultNode = {
-      id: nodeID,
+    const inputNodeID = getNodeID("customInput")
+    const noteNodeID = getNodeID("note")
+
+    const defaultInputNode = {
+      id: inputNodeID,
       type: "customInput",
-      position: { x: 600, y: 200 },
-      data: getInitNodeData(nodeID, "customInput"),
-    }
-    addNode(defaultNode)
+      position: { x: 400, y: 100 },
+      data: getInitNodeData(inputNodeID, "customInput"),
+    };
+
+    const defaultNoteNode = {
+      id: noteNodeID,
+      type: "note",
+      position: { x: 400, y: 700 },
+      data: getInitNodeData(noteNodeID, "note"),
+    };
+
+    const defaultEdge = {
+      id: `e${inputNodeID}-${noteNodeID}`,
+      source: inputNodeID,
+      target: noteNodeID,
+      type: 'smoothstep',
+    };
+
+    addNode(defaultInputNode);
+    addNode(defaultNoteNode);
+    onConnect(defaultEdge);
   }, [])
 
     const onDrop = useCallback(
       
       (event) => {
-          console.log('onDrop function called')
           event.preventDefault();
     
           const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
@@ -119,13 +144,63 @@ export const PipelineUI = () => {
         event.dataTransfer.dropEffect = 'move';
     }, []);
 
+    const handlePlusButtonClick = (sourceId, targetId, edge) => {
+      setSelectedEdge(edge);
+      setEdgeInfo({ sourceId, targetId });
+      setShowDraggableNodes(true);
+    };
+
+    const handleNodeTypeSelect = (nodeType) => {      
+      if (!edgeInfo) return;
+  
+      const { sourceId, targetId } = edgeInfo;
+      const sourceNode = nodes.find(node => node.id === sourceId);
+      const targetNode = nodes.find(node => node.id === targetId);
+  
+      if (!sourceNode || !targetNode) return;
+  
+      const position = {
+        x: (sourceNode.position.x + targetNode.position.x) / 2,
+        y: (sourceNode.position.y + targetNode.position.y) / 2,
+      };
+  
+      const nodeID = getNodeID(nodeType);
+      const newNode = {
+        id: nodeID,
+        type: nodeType,
+        position,
+        data: getInitNodeData(nodeID, nodeType),
+      };
+  
+      addNode(newNode);
+      
+      // Remove the old edge and add two new edges
+      removeEdges(selectedEdge.id);
+      
+      onConnect({
+        id: `e${sourceId}-${nodeID}`,
+        source: sourceId,
+        target: nodeID,
+        type: 'smoothstep',
+      });
+      onConnect({
+        id: `e${nodeID}-${targetId}`,
+        source: nodeID,
+        target: targetId,
+        type: 'smoothstep',
+      });
+  
+      setShowDraggableNodes(false);
+    };
+    console.log({edges});
+    
     return (
         <>
         <div ref={reactFlowWrapper} className="grid" style={{width: '100wv', height: '100vh' }}>
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
-                nodesDraggable={false}
+                nodesDraggable={true}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
@@ -137,6 +212,9 @@ export const PipelineUI = () => {
                 proOptions={proOptions}
                 snapGrid={[gridSize, gridSize]}
                 connectionLineType='smoothstep'
+                onEdgeClick={(event, edge) => {
+                  handlePlusButtonClick(edge.source, edge.target, edge);
+                }}
                 // style={{ background: 'black' }}
             >
                 <Background color="black" gap={gridSize} />
@@ -144,6 +222,12 @@ export const PipelineUI = () => {
                 <MiniMap />
             </ReactFlow>
         </div>
+        // Nodes toolbar
+        {showDraggableNodes && (
+          <PipelineToolbar selectedNode={handleNodeTypeSelect}/>
+        )}
         </>
     )
 }
+
+export default PipelineUI;

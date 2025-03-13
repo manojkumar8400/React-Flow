@@ -34,7 +34,7 @@ export const TextNode = ({ id, data }) => {
         newVarHandles.push({ 
           id: `${id}-value-${i}`, 
           type: 'target',  
-          position: 'Left',
+          position: 'Top',
           style: {top: `${y_pos}%`},
           name: v,
           y_pos
@@ -58,7 +58,7 @@ export const TextNode = ({ id, data }) => {
           { 
             id: `${id}-value`, 
             type: 'source',  
-            position: 'Right'  
+            position: 'Bottom'  
           },
           ...varHandles
         ],

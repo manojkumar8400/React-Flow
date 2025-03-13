@@ -19,9 +19,10 @@ export const InputNode = ({ id, data }) => {
           { 
             id: `${id}-value`, 
             type: 'source',  
-            position: 'Right' 
+            position: 'Bottom' 
           },
         ],
+        isRemoved: false,
         fields: [
           {
             type: 'input',
