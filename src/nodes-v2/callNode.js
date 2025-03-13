@@ -16,7 +16,7 @@ export const CallNode = ({ id, data }) => {
           { 
             id: `${id}-value`, 
             type: 'target',  
-            position: 'Left' 
+            position: 'Top' 
           },
         ],
         fields: [

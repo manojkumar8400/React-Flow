@@ -26,9 +26,14 @@ export const NoteNode = ({ id, data }) => {
     <Node
       config={{
         id,
-        name: 'Note-v2',
-        handles: [],
+        name: 'End',
+        handles: [ { 
+          id: `${id}-value`, 
+          type: 'target',  
+          position: 'Top' 
+        },],
         color: '#ffffcc',
+        isRemoved: false,
         fields: [
           {
             type: 'textarea',

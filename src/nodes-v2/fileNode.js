@@ -16,12 +16,12 @@ export const FileNode = ({ id, data }) => {
           { 
             id: `${id}-value`, 
             type: 'target',  
-            position: 'Left' 
+            position: 'Top' 
           },
           { 
             id: `${id}-value`, 
             type: 'source',  
-            position: 'Right' 
+            position: 'Bottom' 
           },
         ],
         fields: [

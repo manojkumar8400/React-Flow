@@ -16,13 +16,16 @@ code {
 .toolbar {
   /* padding: 0px 15px; */
   background: '';
-  width: 100%;
+  background-color: #eae8e8;
+  width: 10rem;
   position: absolute;
   top: 0;
+  left: 0;
+
   z-index: 5;
   /* background: yellow; */
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-rows: auto auto auto;
 }
 
 .node-grabber-panel, .node-submit-panel {
@@ -33,6 +36,7 @@ code {
   grid-column-start: 1;
   grid-column-end: 3;
   display: flex;
+  flex-direction: column;
   gap: 30px;
 }
 
@@ -40,6 +44,7 @@ code {
   margin-top: 20px; 
   padding: 0px 15px;
   display: flex; 
+  flex-direction: column;
   flex-wrap: wrap; 
   gap: 10px;
   /* background: blue; */
@@ -50,7 +55,7 @@ code {
 }
 
 .node-grabber, .submit-button {
-  cursor: grab; 
+  cursor: pointer; 
   min-width: 60px; 
   height: 60px;
   display: flex; 
