@@ -2,28 +2,17 @@
 
 import { Node } from "./node"
 
-export const LLMNode = ({ id, data }) => {
+export const DelayNode = ({ id, data }) => {
   return (
     <Node
       config={{
         id,
-        name: "LLM-v2",
+        name: "Delay",
         handles: [
           {
             id: `${id}-system`,
             type: "target",
             position: "Left",
-            style: {
-              top: `${25}%`,
-            },
-          },
-          {
-            id: `${id}-prompt`,
-            type: "target",
-            position: "Left",
-            style: {
-              top: `${75}%`
-            },
           },
           {
             id: `${id}-value`,

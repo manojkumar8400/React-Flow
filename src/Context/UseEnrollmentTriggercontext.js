@@ -4,7 +4,7 @@ import { createContext, useContext, useState, useEffect } from "react"
 const enrollmentTriggerContext = createContext()
 
 const EnrollmentTriggerProvider = ({ children }) => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(null);
   const [selectedKeyword, setSelectedKeyword] = useState('Incoming messages')
   const [keywordsList, setkeywordsList] = useState([])
 

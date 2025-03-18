@@ -3,9 +3,11 @@
 import { useStore } from "../store"
 import { Handle, Position } from "reactflow"
 import "./node.css"
+import { useEnrollmentContext } from "../Context/UseEnrollmentTriggercontext"
 
 
 export const Node = ({ config }) => {
+  const { setIsOpen } = useEnrollmentContext()
   const { id, name, handles = [], fields = [], color = "white" } = config
   const { removeNode } = useStore()
 
@@ -13,6 +15,8 @@ export const Node = ({ config }) => {
     <div
       className='node'
       style={{ background: color }}
+      onClick={() => {setIsOpen(id);console.log("clicked", id)}
+      }
     >
       {name === "Text-v2"
         ? handles

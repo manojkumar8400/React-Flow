@@ -1,6 +1,6 @@
 
 .node {
-    cursor: context-menu;
+    cursor: pointer;
     border: 2px solid #8080ff;
     border-radius: 15px;
     padding: 5% 20px;

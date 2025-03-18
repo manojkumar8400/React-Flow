@@ -39,7 +39,7 @@ export const InputNode = ({ id, data }) => {
             props: {
               onClick: () => {
                 console.log('Enrollment Trigger')
-                setIsOpen(!isOpen);
+                // setIsOpen(!isOpen);
               }
             },
           },

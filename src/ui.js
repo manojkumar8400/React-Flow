@@ -9,7 +9,7 @@ import { useStore } from "./store"
 import ButtonEdge from "./edges/buttonEdge"
 
 import { InputNode } from "./nodes-v2/inputNode"
-import { LLMNode } from "./nodes-v2/llmNode"
+import { DelayNode } from "./nodes-v2/delayNode"
 import { OutputNode } from "./nodes-v2/outputNode"
 import { TextNode } from "./nodes-v2/textNode"
 import { PipelineNode } from "./nodes-v2/pipelineNode"
@@ -28,7 +28,7 @@ const edgeTypes = {
 }
 const nodeTypes = {
   customInput: InputNode,
-  llm: LLMNode,
+  delay: DelayNode,
   customOutput: OutputNode,
   text: TextNode,
   pipeline: PipelineNode,
@@ -127,7 +127,7 @@ export const PipelineUI = () => {
       >
         <Background color='black' gap={gridSize} />
         <Controls />
-        <MiniMap />
+        {/*<MiniMap />*/}
       </ReactFlow>
     </div>
   )
