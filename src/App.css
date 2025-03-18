@@ -1,0 +1,6 @@
+.react-flow__handle {
+    width: 15px !important; /* 🔥 Increase width */
+    height: 15px !important; /* 🔥 Increase height */
+    background: #4a90e2 !important; /* 🔥 Optional: Change color */
+    border: 2px solid white;
+  }

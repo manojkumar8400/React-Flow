@@ -1,23 +1,16 @@
 // Node.js
 
-import { useState, useEffect, useRef } from "react"
 import { useStore } from "../store"
-import { shallow } from "zustand/shallow"
 import { Handle, Position } from "reactflow"
 import "./node.css"
 
-const selector = (state) => ({
-  removeNode: state.removeNode,
-})
 
 export const Node = ({ config }) => {
   const { id, name, handles = [], fields = [], color = "white" } = config
-
-  const { removeNode } = useStore(selector, shallow)
+  const { removeNode } = useStore()
 
   return (
     <div
-      // onDoubleClick={() =>{ removeNode(id); console.log('Node removed---')}}
       className='node'
       style={{ background: color }}
     >

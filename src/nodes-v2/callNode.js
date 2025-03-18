@@ -16,7 +16,13 @@ export const CallNode = ({ id, data }) => {
           { 
             id: `${id}-value`, 
             type: 'target',  
-            position: 'Left' 
+            position: 'Left',
+            // style: {
+            //   width: 15, // 🔥 Increase width
+            //   height: 15, // 🔥 Increase height
+            //   background: "#4a90e2",
+            //   border: "2px solid white",
+            // }
           },
         ],
         fields: [

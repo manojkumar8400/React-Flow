@@ -2,7 +2,7 @@ import { PipelineToolbar } from "./toolbar"
 import { PipelineUI } from "./ui"
 import { SubmitButton } from "./submit"
 import { EnrollmentTrigger } from "./components/enrollmentTrigger/EnrollmentTrigger"
-
+import './App.css'
 function App() {
 
   return (
