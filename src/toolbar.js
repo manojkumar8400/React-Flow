@@ -18,8 +18,8 @@ export const PipelineToolbar = ({ selectedNode }) => {
                     <DraggableNode type='pipeline' label='Pipeline' selectedNode={selectedNode} />
                     <DraggableNode type='search' label='Search' selectedNode={selectedNode} />
                     <DraggableNode type='file' label='File' selectedNode={selectedNode} />
-                    <DraggableNode type='call' label='Call' selectedNode={selectedNode} />
-                    <DraggableNode type='note' label='Note' selectedNode={selectedNode} />
+                    <DraggableNode type='branch' label='Branch' selectedNode={selectedNode} />
+                     {/*<DraggableNode type='note' label='Note' selectedNode={selectedNode} />*/}
                 </div>
                 
             </div>

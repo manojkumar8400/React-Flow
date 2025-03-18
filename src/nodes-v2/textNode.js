@@ -35,7 +35,7 @@ export const TextNode = ({ id, data }) => {
           id: `${id}-value-${i}`, 
           type: 'target',  
           position: 'Top',
-          style: {top: `${y_pos}%`},
+          // style: {top: `${y_pos}%`},
           name: v,
           y_pos
         })

@@ -54,8 +54,31 @@ export const useStore = create((set, get) => ({
         target: targetNode,
         type: 'smoothstep',
       });
+
+      // Reset the positions of the source and target nodes
+      const sourceNodeObj = nodesList.find(node => node.id === sourceNode);
+      const targetNodeObj = nodesList.find(node => node.id === targetNode);
+      if (sourceNodeObj && targetNodeObj) {
+        const midY = (sourceNodeObj.position.y + targetNodeObj.position.y) / 2;
+        sourceNodeObj.position.y = midY - 60 - (sourceNodeObj.height || 0);
+        targetNodeObj.position.y = midY + 60 + (targetNodeObj.height || 0);
+      }
     }
   },
+
+   // Function to update node positions dynamically
+   updateNodePositions: (nodeUpdates) => {
+    console.log({nodeUpdates});
+    
+    set((state) => ({
+        nodes: state.nodes.map(node => 
+            nodeUpdates[node.id] 
+            ? { ...node, position: nodeUpdates[node.id] } 
+            : node
+        ),
+    }));
+},
+
   // Remove edge  when user create a new node
   removeEdges: (id) => {    
     set((state) => ({

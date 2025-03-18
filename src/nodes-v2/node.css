@@ -29,6 +29,10 @@
         padding: .3rem .5rem;	
         cursor: pointer;
     }
+
+    span {
+        margin: auto;
+    }
 }
 
 .node-field {
